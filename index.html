@@ -48,28 +48,33 @@
     </div>
 
     <div id="tab-roulette" class="tab-content">
-        <h2>Ежедневная удача</h2>
+        <h2>Ежедневное колесо</h2>
         <div class="roulette-container">
-            <div id="wheel" class="spin-circle">
-                <div style="padding-top: 60px; font-size: 40px;">🎁</div>
+            <div class="wheel-marker">🔻</div>
+            <div class="wheel-wrapper">
+                <div id="wheel" class="spin-circle">
+                    </div>
             </div>
-            <p id="spin-result" style="font-weight: bold; min-height: 20px;">Крути и выигрывай!</p>
-            <button class="spin-btn" onclick="spin()">Крутить!</button>
+            
+            <p id="spin-result" style="font-weight: bold; min-height: 20px; margin-top: 20px;">Испытай удачу!</p>
+            
+            <button id="spin-btn" class="spin-btn" onclick="spin()">Крутить колесо!</button>
         </div>
 
         <div class="chances-box">
-            <h3>📜 Список наград и шансы:</h3>
-            <ul class="chances-list">
-                <li class="common">⭐️ 5 Звёзд — 40% (Часто)</li>
-                <li class="common">⭐️ 10 Звёзд — 25% (Обычный)</li>
-                <li class="uncommon">🏷 Скидка 5% — 15% (Необычный)</li>
-                <li class="rare">⭐️ 25 Звёзд — 10% (Редкий)</li>
-                <li class="rare">🏷 Скидка 10% — 5% (Редкий)</li>
-                <li class="legendary">⭐️ 50 Звёзд — 3% (Эпический)</li>
-                <li class="legendary">🏷 Скидка 15% — 2% (Легендарный)</li>
+            <h3>📜 Сектора и шансы:</h3>
+             <ul class="chances-list">
+                <li style="color:#fbbf24">⭐️ 5 Звёзд (40%)</li>
+                <li style="color:#fcd34d">⭐️ 10 Звёзд (25%)</li>
+                <li style="color:#38bdf8">🏷 Скидка 5% (15%)</li>
+                <li style="color:#a855f7">⭐️ 25 Звёзд (10%)</li>
+                <li style="color:#c084fc">🏷 Скидка 10% (5%)</li>
+                <li style="color:#f43f5e; font-weight:bold;">⭐️ 50 Звёзд (3%)</li>
+                <li style="color:#fb7185; font-weight:bold;">🏷 Скидка 15% (2%)</li>
             </ul>
         </div>
     </div>
+
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('profile', this)">
@@ -86,5 +91,6 @@
     <script src="./script.js?v=3"></script>
 </body>
 </html>
+
 
 
