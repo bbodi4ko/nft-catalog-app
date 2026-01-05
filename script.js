@@ -64,88 +64,138 @@ const prizes = [
 ];
 
 function spin() {
+// --- КОНФИГУРАЦИЯ РУЛЕТКИ ---
+// Важно: порядок здесь должен совпадать с порядком цветов в CSS conic-gradient
+const prizes = [
+    { name: "5 Звёзд", type: 'stars', value: 5, chance: 40 },   // Сектор 1 (0-45deg)
+    { name: "10 Звёзд", type: 'stars', value: 10, chance: 25 }, // Сектор 2
+    { name: "Скидка 5%", type: 'discount', value: 5, chance: 15 }, // Сектор 3
+    { name: "25 Звёзд", type: 'stars', value: 25, chance: 10 }, // Сектор 4
+    { name: "Скидка 10%", type: 'discount', value: 10, chance: 5 }, // Сектор 5
+    { name: "50 Звёзд", type: 'stars', value: 50, chance: 3 },  // Сектор 6
+    { name: "Скидка 15%", type: 'discount', value: 15, chance: 2 }, // Сектор 7
+     // (Визуально есть 8-й сектор, но математически мы используем 7 призов. 
+     // Если выпадет 8-й сектор по ошибке, добавим 5 звезд как бонус).
+];
+
+// Время последнего прокрута (берем из памяти или 0)
+let lastSpinTime = localStorage.getItem('lastSpinTime') ? parseInt(localStorage.getItem('lastSpinTime')) : 0;
+const COOLDOWN_TIME = 24 * 60 * 60 * 1000; // 24 часа в миллисекундах
+
+// --- ФУНКЦИЯ ВРАЩЕНИЯ ---
+function spin() {
+    // 1. Проверка времени перед стартом
+    const now = Date.now();
+    if (now - lastSpinTime < COOLDOWN_TIME) {
+        tg.showAlert("Полегче! Колесо можно крутить только раз в 24 часа.");
+        return;
+    }
+
     const wheel = document.getElementById('wheel');
     const resultText = document.getElementById('spin-result');
-    const btn = document.querySelector('.spin-btn');
+    const btn = document.getElementById('spin-btn');
 
-    // 1. Блокируем кнопку
     btn.disabled = true;
-    resultText.innerText = "Выбираем приз...";
-    
-    // 2. Запускаем визуальную анимацию
-    wheel.style.transform = "rotate(1080deg)"; // 3 оборота
+    resultText.innerText = "Колесо крутится...";
 
-    // 3. Вычисляем выигрыш (заранее)
-    const random = Math.random() * 100; // Число от 0 до 100
+    // 2. Математика: определяем победителя ЗАРАНЕЕ
+    const random = Math.random() * 100;
     let currentSum = 0;
-    let wonPrize = null;
+    let wonPrize = prizes[0]; // По умолчанию первый
+    let prizeIndex = 0;
 
-    // Проходим по списку и смотрим, куда попало число
-    for (let prize of prizes) {
-        currentSum += prize.chance;
+    for (let i = 0; i < prizes.length; i++) {
+        currentSum += prizes[i].chance;
         if (random <= currentSum) {
-            wonPrize = prize;
+            wonPrize = prizes[i];
+            prizeIndex = i;
             break;
         }
     }
 
-    // 4. Через 3 секунды показываем результат
+    // 3. Расчет угла остановки
+    // У нас 8 визуальных секторов = 360 / 8 = 45 градусов на сектор.
+    // Чтобы маркер (сверху) указал на нужный сектор, колесо должно докрутиться
+    // так, чтобы этот сектор оказался наверху.
+    const segmentAngle = 45; 
+    // Добавляем немного случайности внутри сектора (+- 20 град), чтобы не всегда в центр попадало
+    const randomOffset = Math.floor(Math.random() * 40) - 20; 
+    
+    // Формула: 5 полных оборотов + угол до нужного сектора
+    // Мы вычитаем угол, потому что крутим по часовой стрелке, а индексы идут против.
+    const targetRotation = (360 * 5) - (prizeIndex * segmentAngle) - (segmentAngle / 2) + randomOffset;
+
+    // Запускаем анимацию
+    wheel.style.transform = `rotate(${targetRotation}deg)`;
+
+    // 4. Действия после остановки (через 4 секунды)
     setTimeout(() => {
-        wheel.style.transform = "rotate(0deg)"; // Сброс круга
-        
+        // Сохраняем время прокрута
+        lastSpinTime = Date.now();
+        localStorage.setItem('lastSpinTime', lastSpinTime);
+
+        // Начисляем награду
         if (wonPrize.type === 'stars') {
-            // Если выиграли звезды - добавляем к балансу
             userBalance += wonPrize.value;
-            resultText.innerHTML = `Выпало: <b style="color:#fbbf24">${wonPrize.name}</b>!`;
-            tg.showAlert(`Поздравляем! Ваш баланс пополнен на ${wonPrize.value} звезд.`);
+            resultText.innerHTML = `🎉 Выпало: <b>${wonPrize.name}</b>!`;
         } else {
-            // Если выиграли СКИДКУ - добавляем её в инвентарь как предмет
             inventory.push({ 
                 name: wonPrize.name, 
-                image: "https://cdn-icons-png.flaticon.com/512/879/879757.png" // Картинка купона
+                image: "https://cdn-icons-png.flaticon.com/512/879/879757.png" 
             });
-            resultText.innerHTML = `Выпало: <b style="color:#a855f7">${wonPrize.name}</b>!`;
-            tg.showAlert(`Вау! Вы выиграли ${wonPrize.name}. Купон добавлен в ваш профиль.`);
+            resultText.innerHTML = `🎟 Выпало: <b>${wonPrize.name}</b>!`;
         }
 
         saveData();
-        updateUI();
-        
-        // Разблокируем кнопку
-        btn.disabled = false;
+        updateUI(); // Обновит баланс и запустит таймер на кнопке
         tg.hapticFeedback.notificationOccurred('success');
-    }, 3000);
-}
-    // Блокируем кнопку, чтобы не жали много раз
-    btn.disabled = true;
 
-    // Анимация
-    wheel.style.transform = "rotate(1080deg)"; 
-    
-    setTimeout(() => {
-        const reward = Math.floor(Math.random() * 200) + 50; 
-        userBalance += reward;
-        saveData();
-        updateUI();
+        // ВАЖНО: Колесо не сбрасываем в 0, чтобы оно не дергалось назад.
+        // В следующий раз оно начнет крутиться с этой же позиции.
+
+    }, 4100); // Чуть больше 4 секунд, чтобы анимация точно закончилась
+}
+
+// --- ФУНКЦИЯ ТАЙМЕРА (Добавьте её в конец script.js) ---
+let timerInterval;
+
+function checkSpinCooldown() {
+    const btn = document.getElementById('spin-btn');
+    if (!btn) return; // Если мы не на вкладке рулетки
+
+    const now = Date.now();
+    const timeLeft = COOLDOWN_TIME - (now - lastSpinTime);
+
+    if (timeLeft > 0) {
+        // Время еще не пришло
+        btn.disabled = true;
         
-        // Сброс и разблокировка
-        wheel.style.transform = "rotate(0deg)"; 
-        resultText.innerText = `Вы выиграли ${reward} звёзд!`;
+        // Вычисляем часы, минуты, секунды
+        const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        btn.innerText = `Жди: ${hours}ч ${minutes}м ${seconds}с`;
+    } else {
+        // Время пришло!
         btn.disabled = false;
-        
-        // Вибрация телефона
-        tg.hapticFeedback.notificationOccurred('success'); 
-    }, 3000);
+        btn.innerText = "Крутить колесо!";
+        if (timerInterval) clearInterval(timerInterval); // Останавливаем таймер
+    }
 }
-
-// 4. Вспомогательные функции
-function saveData() {
-    localStorage.setItem('balance', userBalance);
-    localStorage.setItem('inventory', JSON.stringify(inventory));
-}
-
 function updateUI() {
+    // --- ДОБАВЬТЕ ЭТУ СТРОКУ ---
+    // Запускаем проверку таймера каждую секунду, если мы на вкладке рулетки
+    if (document.getElementById('tab-roulette').classList.contains('active')) {
+         if (timerInterval) clearInterval(timerInterval); // Очищаем старый
+         timerInterval = setInterval(checkSpinCooldown, 1000); // Запускаем новый
+         checkSpinCooldown(); // И сразу проверяем один раз
+    }
+    // ---------------------------
+
     document.getElementById('balance').innerText = userBalance;
+    // ... остальной код функции ...
+}
     
     const invContainer = document.getElementById('inventory');
     if (inventory.length > 0) {
@@ -160,5 +210,6 @@ function updateUI() {
         });
     }
 }
+
 
 
