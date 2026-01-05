@@ -9,239 +9,62 @@
 body {
     background-color: var(--bg-color);
     color: var(--text-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    margin: 0;
-    padding: 0;
-    padding-bottom: 80px;
+    font-family: sans-serif;
+    margin: 0; padding: 0; padding-bottom: 80px;
 }
 
-/* --- Вкладки --- */
-.tab-content {
-    display: none;
-    padding: 20px;
-    animation: fadeIn 0.3s;
-}
+/* Вкладки */
+.tab-content { display: none; padding: 20px; animation: fadeIn 0.3s; }
+.tab-content.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-.tab-content.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* --- Профиль --- */
+/* Профиль */
 .profile-header {
-    text-align: center;
-    background: linear-gradient(135deg, #6366f1, #a855f7);
-    padding: 30px 20px;
-    border-radius: 0 0 20px 20px;
-    margin: -20px -20px 20px -20px;
+    text-align: center; background: linear-gradient(135deg, #6366f1, #a855f7);
+    padding: 30px 20px; border-radius: 0 0 20px 20px; margin: -20px -20px 20px -20px;
 }
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    background: #fff;
-    border-radius: 50%;
-    margin: 0 auto 10px;
-    overflow: hidden;
-    border: 3px solid rgba(255,255,255,0.5);
-}
+.avatar { width: 80px; height: 80px; background: #fff; border-radius: 50%; margin: 0 auto 10px; overflow: hidden; border: 3px solid rgba(255,255,255,0.5); }
 .avatar img { width: 100%; height: 100%; object-fit: cover; }
+.balance-card { background: rgba(255,255,255,0.2); padding: 10px; border-radius: 12px; display: inline-block; margin-top: 10px; font-weight: bold; }
 
-.balance-card {
-    background: rgba(255,255,255,0.2);
-    padding: 10px;
-    border-radius: 12px;
-    display: inline-block;
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-.inventory-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 10px;
-}
-
-.inventory-item {
-    background: var(--card-bg);
-    border-radius: 10px;
-    padding: 5px;
-    text-align: center;
-    font-size: 10px;
-}
+/* Инвентарь */
+.inventory-list { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.inventory-item { background: var(--card-bg); border-radius: 10px; padding: 5px; text-align: center; font-size: 10px; }
 .inventory-item img { width: 100%; border-radius: 8px; }
 
-/* --- Каталог --- */
-.catalog-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-}
-
-.product-card {
-    background: var(--card-bg);
-    border-radius: 15px;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.product-img {
-    width: 100%;
-    aspect-ratio: 1;
-    background: #334155;
-    border-radius: 10px;
-    margin-bottom: 10px;
-}
+/* Каталог */
+.catalog-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.product-card { background: var(--card-bg); border-radius: 15px; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+.product-img { width: 100%; aspect-ratio: 1; background: #334155; border-radius: 10px; margin-bottom: 10px; }
 .product-img img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+.buy-btn { background: var(--accent); color: white; border: none; padding: 8px; border-radius: 8px; margin-top: 10px; width: 100%; cursor: pointer; }
 
-.buy-btn {
-    background: var(--accent);
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    margin-top: 10px;
-    width: 100%;
-    cursor: pointer;
-}
+/* Рулетка */
+.roulette-container { text-align: center; margin-top: 30px; position: relative; display: flex; flex-direction: column; align-items: center; }
+.wheel-marker { font-size: 30px; color: #f43f5e; position: absolute; top: -15px; z-index: 10; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+.wheel-wrapper { width: 220px; height: 220px; padding: 5px; background: #fff; border-radius: 50%; box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
 
-/* --- Рулетка --- */
-/* --- Рулетка (Новые стили) --- */
-.roulette-container {
-    text-align: center;
-    margin-top: 30px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-/* Маркер (стрелка сверху) */
-.wheel-marker {
-    font-size: 30px;
-    color: #f43f5e;
-    position: absolute;
-    top: -15px;
-    z-index: 10;
-    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
-}
-
-.wheel-wrapper {
-    width: 220px;
-    height: 220px;
-    padding: 5px;
-    background: #fff;
-    border-radius: 50%;
-    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
-}
-
-/* Само колесо с секторами */
 .spin-circle {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    border: 2px solid #1e293b;
-    /* Рисуем 8 секторов разными цветами */
+    width: 100%; height: 100%; border-radius: 50%; border: 2px solid #1e293b;
+    /* 8 Секторов */
     background: conic-gradient(
-        #fbbf24 0deg 45deg,   /* 5 звезд */
-        #fcd34d 45deg 90deg,  /* 10 звезд */
-        #38bdf8 90deg 135deg, /* Скидка 5% */
-        #a855f7 135deg 180deg,/* 25 звезд */
-        #c084fc 180deg 225deg,/* Скидка 10% */
-        #f43f5e 225deg 270deg,/* 50 звезд */
-        #fb7185 270deg 315deg,/* Скидка 15% */
-        #fbbf24 315deg 360deg /* Бонус (5 звезд) */
+        #fbbf24 0deg 45deg,   #fcd34d 45deg 90deg, 
+        #38bdf8 90deg 135deg, #a855f7 135deg 180deg,
+        #c084fc 180deg 225deg,#f43f5e 225deg 270deg,
+        #fb7185 270deg 315deg,#fbbf24 315deg 360deg
     );
-    /* Важно: плавность вращения */
     transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
 }
 
-.spin-btn {
-    background: linear-gradient(to right, #fbbf24, #f59e0b);
-    color: #000;
-    border: none;
-    padding: 15px 40px;
-    font-size: 18px;
-    border-radius: 30px;
-    font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
-    min-width: 200px; /* Чтобы таймер не прыгал */
-}
+.spin-btn { background: linear-gradient(to right, #fbbf24, #f59e0b); color: #000; border: none; padding: 15px 40px; font-size: 18px; border-radius: 30px; font-weight: bold; cursor: pointer; min-width: 200px; margin-top: 20px; }
+.spin-btn:disabled { background: #475569; color: #94a3b8; cursor: not-allowed; }
 
-/* Стиль для неактивной кнопки (таймер) */
-.spin-btn:disabled {
-    background: #475569;
-    color: #94a3b8;
-    cursor: not-allowed;
-    box-shadow: none;
-}
+.chances-box { margin-top: 20px; background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; text-align: left; width: 100%; box-sizing: border-box; }
+.chances-list { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+.chances-list li { padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
 
-/* --- Меню --- */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background: var(--nav-bg);
-    display: flex;
-    justify-content: space-around;
-    padding: 15px 0;
-    border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.nav-item {
-    color: #94a3b8;
-    font-size: 12px;
-    text-align: center;
-    cursor: pointer;
-}
-
-.nav-item.active {
-    color: var(--accent);
-    font-weight: bold;
-}
-
+/* Меню */
+.bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: var(--nav-bg); display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid rgba(255,255,255,0.1); }
+.nav-item { color: #94a3b8; font-size: 12px; text-align: center; cursor: pointer; }
+.nav-item.active { color: var(--accent); font-weight: bold; }
 .nav-icon { font-size: 20px; display: block; margin-bottom: 4px; }
-
-/* --- Стили для списка шансов --- */
-.chances-box {
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.05);
-    padding: 15px;
-    border-radius: 12px;
-    text-align: left;
-}
-
-.chances-box h3 {
-    margin-top: 0;
-    font-size: 16px;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
-    padding-bottom: 10px;
-}
-
-.chances-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    font-size: 13px;
-}
-
-.chances-list li {
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-
-/* Цвета редкости */
-.common { color: #94a3b8; }      /* Серый */
-.uncommon { color: #38bdf8; }    /* Голубой */
-.rare { color: #a855f7; }        /* Фиолетовый */
-.legendary { color: #fbbf24; font-weight: bold; } /* Золотой */
-
-
