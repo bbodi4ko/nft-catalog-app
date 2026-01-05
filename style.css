@@ -112,28 +112,75 @@ body {
 }
 
 /* --- Рулетка --- */
+/* --- Рулетка (Новые стили) --- */
 .roulette-container {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.spin-circle {
-    width: 150px;
-    height: 150px;
-    background: conic-gradient(from 0deg, #f43f5e, #fbbf24, #34d399, #60a5fa, #f43f5e);
+
+/* Маркер (стрелка сверху) */
+.wheel-marker {
+    font-size: 30px;
+    color: #f43f5e;
+    position: absolute;
+    top: -15px;
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+.wheel-wrapper {
+    width: 220px;
+    height: 220px;
+    padding: 5px;
+    background: #fff;
     border-radius: 50%;
-    margin: 0 auto 20px;
-    border: 5px solid #fff;
-    transition: transform 3s ease-out;
+    box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
 }
+
+/* Само колесо с секторами */
+.spin-circle {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid #1e293b;
+    /* Рисуем 8 секторов разными цветами */
+    background: conic-gradient(
+        #fbbf24 0deg 45deg,   /* 5 звезд */
+        #fcd34d 45deg 90deg,  /* 10 звезд */
+        #38bdf8 90deg 135deg, /* Скидка 5% */
+        #a855f7 135deg 180deg,/* 25 звезд */
+        #c084fc 180deg 225deg,/* Скидка 10% */
+        #f43f5e 225deg 270deg,/* 50 звезд */
+        #fb7185 270deg 315deg,/* Скидка 15% */
+        #fbbf24 315deg 360deg /* Бонус (5 звезд) */
+    );
+    /* Важно: плавность вращения */
+    transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
 .spin-btn {
-    background: #fbbf24;
+    background: linear-gradient(to right, #fbbf24, #f59e0b);
     color: #000;
     border: none;
-    padding: 15px 30px;
+    padding: 15px 40px;
     font-size: 18px;
-    border-radius: 12px;
+    border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
+    box-shadow: 0 5px 15px rgba(251, 191, 36, 0.3);
+    min-width: 200px; /* Чтобы таймер не прыгал */
+}
+
+/* Стиль для неактивной кнопки (таймер) */
+.spin-btn:disabled {
+    background: #475569;
+    color: #94a3b8;
+    cursor: not-allowed;
+    box-shadow: none;
 }
 
 /* --- Меню --- */
@@ -196,4 +243,5 @@ body {
 .uncommon { color: #38bdf8; }    /* Голубой */
 .rare { color: #a855f7; }        /* Фиолетовый */
 .legendary { color: #fbbf24; font-weight: bold; } /* Золотой */
+
 
