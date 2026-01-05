@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>NFT App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=999">
 </head>
 <body>
 
@@ -18,18 +18,18 @@
             <div class="balance-card">Баланс: <span id="balance">0</span> ⭐️</div>
         </div>
         
-        <h3>🎒 Мои NFT</h3>
+        <h3>🎒 Мои предметы</h3>
         <div id="inventory" class="inventory-list">
-            <p style="color: gray; font-size: 12px;">Пока пусто. Купи что-нибудь!</p>
+            <p style="color: gray; font-size: 12px;">Пусто...</p>
         </div>
     </div>
 
     <div id="tab-catalog" class="tab-content">
-        <h2>Магазин подарков</h2>
+        <h2>Магазин</h2>
         <div class="catalog-grid">
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://em-content.zobj.net/source/microsoft-teams/337/gem-stone_1f48e.png" alt="Gem">
+                    <img src="https://em-content.zobj.net/source/microsoft-teams/337/gem-stone_1f48e.png">
                 </div>
                 <strong>Diamond</strong>
                 <span>500 ⭐️</span>
@@ -38,43 +38,36 @@
             
             <div class="product-card">
                 <div class="product-img">
-                    <img src="https://em-content.zobj.net/source/microsoft-teams/337/crown_1f451.png" alt="Crown">
+                    <img src="https://em-content.zobj.net/source/microsoft-teams/337/crown_1f451.png">
                 </div>
-                <strong>King Crown</strong>
+                <strong>Crown</strong>
                 <span>1000 ⭐️</span>
-                <button class="buy-btn" onclick="buyItem('King Crown', 1000, 'https://em-content.zobj.net/source/microsoft-teams/337/crown_1f451.png')">Купить</button>
+                <button class="buy-btn" onclick="buyItem('Crown', 1000, 'https://em-content.zobj.net/source/microsoft-teams/337/crown_1f451.png')">Купить</button>
             </div>
         </div>
     </div>
 
     <div id="tab-roulette" class="tab-content">
-        <h2>Ежедневное колесо</h2>
+        <h2>Колесо Фортуны</h2>
         <div class="roulette-container">
             <div class="wheel-marker">🔻</div>
             <div class="wheel-wrapper">
-                <div id="wheel" class="spin-circle">
-                    </div>
+                <div id="wheel" class="spin-circle"></div>
             </div>
-            
-            <p id="spin-result" style="font-weight: bold; min-height: 20px; margin-top: 20px;">Испытай удачу!</p>
-            
-            <button id="spin-btn" class="spin-btn" onclick="spin()">Крутить колесо!</button>
+            <p id="spin-result" style="margin-top: 15px; min-height: 20px;">Испытай удачу!</p>
+            <button id="spin-btn" class="spin-btn" onclick="spin()">Крутить!</button>
         </div>
 
         <div class="chances-box">
-            <h3>📜 Сектора и шансы:</h3>
              <ul class="chances-list">
                 <li style="color:#fbbf24">⭐️ 5 Звёзд (40%)</li>
                 <li style="color:#fcd34d">⭐️ 10 Звёзд (25%)</li>
                 <li style="color:#38bdf8">🏷 Скидка 5% (15%)</li>
                 <li style="color:#a855f7">⭐️ 25 Звёзд (10%)</li>
-                <li style="color:#c084fc">🏷 Скидка 10% (5%)</li>
-                <li style="color:#f43f5e; font-weight:bold;">⭐️ 50 Звёзд (3%)</li>
-                <li style="color:#fb7185; font-weight:bold;">🏷 Скидка 15% (2%)</li>
+                <li style="color:#f43f5e">⭐️ 50 Звёзд (3%)</li>
             </ul>
         </div>
     </div>
-
 
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('profile', this)">
@@ -88,9 +81,6 @@
         </div>
     </div>
 
-    <script src="./script.js?v=3"></script>
+    <script src="./script.js?v=999"></script>
 </body>
 </html>
-
-
-
