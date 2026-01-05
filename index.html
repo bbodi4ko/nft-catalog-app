@@ -50,9 +50,24 @@
     <div id="tab-roulette" class="tab-content">
         <h2>Ежедневная удача</h2>
         <div class="roulette-container">
-            <div id="wheel" class="spin-circle"></div>
-            <p id="spin-result">Нажми кнопку, чтобы получить звезды!</p>
+            <div id="wheel" class="spin-circle">
+                <div style="padding-top: 60px; font-size: 40px;">🎁</div>
+            </div>
+            <p id="spin-result" style="font-weight: bold; min-height: 20px;">Крути и выигрывай!</p>
             <button class="spin-btn" onclick="spin()">Крутить!</button>
+        </div>
+
+        <div class="chances-box">
+            <h3>📜 Список наград и шансы:</h3>
+            <ul class="chances-list">
+                <li class="common">⭐️ 5 Звёзд — 40% (Часто)</li>
+                <li class="common">⭐️ 10 Звёзд — 25% (Обычный)</li>
+                <li class="uncommon">🏷 Скидка 5% — 15% (Необычный)</li>
+                <li class="rare">⭐️ 25 Звёзд — 10% (Редкий)</li>
+                <li class="rare">🏷 Скидка 10% — 5% (Редкий)</li>
+                <li class="legendary">⭐️ 50 Звёзд — 3% (Эпический)</li>
+                <li class="legendary">🏷 Скидка 15% — 2% (Легендарный)</li>
+            </ul>
         </div>
     </div>
 
@@ -71,3 +86,4 @@
     <script src="./script.js"></script>
 </body>
 </html>
+
