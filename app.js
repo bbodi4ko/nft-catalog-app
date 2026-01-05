@@ -1,7 +1,7 @@
 const tg = window.Telegram.WebApp;
 tg.expand();
 
-// --- ДАННЫЕ И ИНИЦИАЛИЗАЦИЯ ---
+// --- ДАННЫЕ И ИНИЦИАЛИЗАЦИЯ --
 let userBalance = localStorage.getItem('balance') ? parseInt(localStorage.getItem('balance')) : 100;
 let inventory = localStorage.getItem('inventory') ? JSON.parse(localStorage.getItem('inventory')) : [];
 
@@ -100,3 +100,4 @@ function updateUI() {
         });
     }
 }
+
